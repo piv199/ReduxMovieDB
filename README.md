@@ -1,27 +1,25 @@
 # ReduxMovieDB
+[![Build Status](https://travis-ci.org/cardoso/ReduxMovieDB.svg?branch=master)](https://travis-ci.org/cardoso/ReduxMovieDB) [![codecov](https://codecov.io/gh/cardoso/ReduxMovieDB/branch/master/graph/badge.svg)](https://codecov.io/gh/cardoso/ReduxMovieDB)
 
 ## Screenshots
 |iPhone (1)|iPhone (2)|iPad|
 |----------|----------|----|
 |![](screenshots/screen_iphone_1.png)|![](screenshots/screen_iphone_2.png)|![](screenshots/screen_ipad_1.png)|
 
-## Third-party libraries
-1. [ReSwift](https://github.com/ReSwift/ReSwift)
-
-    ReSwift is a Redux-like implementation of the unidirectional data flow architecture in Swift.
-
-2. [RxSwift + RxCocoa](https://github.com/ReactiveX/RxSwift)
-
-    RxSwift and RxCocoa are libraries for composing asynchronous and event-based Apps using observable sequences.
-
-3. [SDWebImage](https://github.com/rs/SDWebImage)
-
-    This library provides an async image downloader with cache support.
+## Dependencies
+|#|Library|Description|
+|-|-|-|
+|1|[ReSwift](https://github.com/ReSwift/ReSwift)|Redux-like implementation of the unidirectional data flow architecture.|
+|2|[ReSwift-Thunk](https://github.com/ReSwift/ReSwift-Thunk)|ReSwift actions that do side-effects in an uncoupled and semantic manner.|
+|3|[RxSwift](https://github.com/ReactiveX/RxSwift)|For composing asynchronous and event-based Apps using observable sequences.|
+|4|[RxKeyboard](https://github.com/RxSwiftCommunity/RxKeyboard)|Provides a reactive way of observing keyboard frame changes.|
+|5|[Nuke](https://github.com/kean/Nuke)|Provides an async image downloader with cache support.|
+|6|[DifferenceKit](https://github.com/ra1028/DifferenceKit)|A fast and flexible O(n) difference algorithm framework for Swift collection.|
 
 ## Build instructions
 
 1. An OSX machine
-2. Xcode 9.x or higher (Swift 4)
+2. Xcode 11.x or higher (Swift 5.0)
 3. Install [CocoaPods](https://cocoapods.org/) (note that you will need to install at least Ruby 2.2.3 for this to work)
 ```
 sudo gem install cocoapods

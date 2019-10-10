@@ -1,0 +1,18 @@
+language: swift
+osx_image: xcode11
+
+xcode_project: ReduxMovieDB.xcworkspace
+xcode_scheme: ReduxMovieDBTests
+
+cache:
+  - bundler
+
+before_install:
+  - bundle install
+  - bundle update
+
+script:
+    - bundle exec fastlane test
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash) -J 'ReduxMovieDB' -g 'ReduxMovieDBTests/' 

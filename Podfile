@@ -4,12 +4,22 @@
 target 'ReduxMovieDB' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
+  inhibit_all_warnings!
 
-  # Pods for ReduxMovieDB
-  pod 'ReSwift', '~> 4.0' 
-  pod 'RxSwift', '~> 4.0'
-  pod 'RxCocoa', '~> 4.0'
-  pod 'SDWebImage', '~> 4.0'
+  # Redux pods
+  pod 'ReSwift', '~> 4.0'
+  pod 'ReSwiftThunk'
+
+  # Reactive pods
+  pod 'RxSwift', '~> 5'
+  pod 'RxCocoa', '~> 5'
+  pod 'RxKeyboard'
+
+  # Networking pods
+  pod 'Nuke', '~> 7.4'
+
+  # Diffing pods
+  pod 'DifferenceKit/UIKitExtension'
 
   target 'ReduxMovieDBTests' do
     inherit! :search_paths

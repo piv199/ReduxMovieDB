@@ -7,8 +7,10 @@
 //
 
 import ReSwift
+
 import RxCocoa
 import RxSwift
+import RxKeyboard
 
 class MovieListViewController: UIViewController {
     var movies: [Movie] = []
@@ -68,54 +70,26 @@ class MovieListViewController: UIViewController {
                 .disposed(by: disposeBag)
         }
     }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = NSLocalizedString("FILMS", comment: "Films view controller title")
+        RxKeyboard.instance.visibleHeight
+            .drive(onNext: { height in
+                self.additionalSafeAreaInsets.bottom = height
+        }).disposed(by: disposeBag)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         mainStore.subscribe(self, transform: {
             $0.select(MovieListViewState.init)
         })
-
-        let center = NotificationCenter.default
-        center.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-        center.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         mainStore.unsubscribe(self)
-
-        NotificationCenter.default.removeObserver(self)
-    }
-
-    @objc func keyboardWillShow(_ notification: Notification) {
-        guard
-            let userInfo = notification.userInfo,
-            let rect = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-            let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber
-        else {
-            return
-        }
-
-        let convertedRect = view.convert(rect, from: nil)
-
-        UIView.animate(withDuration: animationDuration.doubleValue) {
-            self.additionalSafeAreaInsets.bottom = convertedRect.size.height - self.view.safeAreaInsets.bottom
-            self.view.layoutIfNeeded()
-        }
-    }
-
-    @objc func keyboardWillHide(_ notification: Notification) {
-        guard
-            let userInfo = notification.userInfo,
-            let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber
-        else {
-            return
-        }
-
-        UIView.animate(withDuration: animationDuration.doubleValue) {
-            self.additionalSafeAreaInsets.bottom = 0
-            self.view.layoutIfNeeded()
-        }
     }
 }
 
@@ -125,8 +99,9 @@ extension MovieListViewController: StoreSubscriber {
     typealias StoreSubscriberStateType = MovieListViewState
 
     func newState(state: MovieListViewState) {
-        movies = state.movies
-        moviesTableView.reloadData()
+        moviesTableView.diffUpdate(source: movies, target: state.movies) {
+            self.movies = $0
+        }
 
         searchBar.text = state.searchBarText
         searchBar.showsCancelButton = state.searchBarShowsCancel
